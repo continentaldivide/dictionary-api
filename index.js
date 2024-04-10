@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require("./models");
 const app = express();
+const { Op } = require("sequelize");
 const port = 8001;
 
 app.use(express.json());
@@ -8,12 +9,13 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("express server");
 });
-
-app.post("/", async (req, res) => {
+app.get("/:word", async (req, res) => {
   try {
     const foundWord = await db.word.findOne({
       where: {
-        word: req.body.word,
+        word: {
+          [Op.iLike]: req.params.word,
+        },
       },
     });
     foundWord
