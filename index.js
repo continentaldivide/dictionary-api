@@ -6,9 +6,6 @@ const port = 8001;
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("express server");
-});
 app.get("/:word", async (req, res) => {
   try {
     const foundWord = await db.word.findOne({
@@ -19,8 +16,12 @@ app.get("/:word", async (req, res) => {
       },
     });
     foundWord
-      ? res.send(`definition of ${foundWord.word}: ${foundWord.definition}`)
-      : res.send("word not found");
+      ? res.send({
+          status: "found",
+          word: foundWord.word,
+          definition: foundWord.definition,
+        })
+      : res.send({ status: "not found" });
   } catch (error) {
     console.log(error);
   }
