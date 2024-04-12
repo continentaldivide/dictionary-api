@@ -2,9 +2,7 @@ const express = require("express");
 const db = require("./models");
 const app = express();
 const { Op } = require("sequelize");
-const port = 8001;
-
-app.use(express.json());
+const PORT = process.env.PORT || 8001;
 
 app.get("/:word", async (req, res) => {
   try {
@@ -27,6 +25,6 @@ app.get("/:word", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log("server running on " + port);
+app.listen(PORT, () => {
+  console.log("server running on " + PORT);
 });
